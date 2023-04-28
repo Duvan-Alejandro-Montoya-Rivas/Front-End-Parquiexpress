@@ -1,43 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-//import { AuthService } from '../service/auth.service';
-import { TokenService } from '../service/token.service';
-import { ToastrService } from 'ngx-toastr';
-import { LoginUserDto } from '../model/login-user-dto';
+// Imports the default component type
+import { Component } from '@angular/core';
+
+//Imports the httpClient to perform request
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit {
-  
+export class LoginComponent {
 
-  username!:string;
-  password!:string;
-  constructor(
-    //private authService: AuthService,
-    private tokenService: TokenService,
-    //private toastr: ToastrService,
-    private router:Router
+  // Variables to set the captured values
+  username: string | undefined;
+  password: string | undefined;
 
-  ){}
+  constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  login() {
+
+    // Change the URL with the right endpoint
+    const url = 'https://example.com/login';
+    const data = { username: this.username, password: this.password };
+
+    this.http.post(url, data).subscribe(response => {
+
+      //Here, the response object contains the object returned by the request
+      console.log(response);
+
+    });
   }
-
-  onLogin():void {
-    const requestBody = { username: "Daniela@gmail.com", password: '1234' }
-    const dto = new LoginUserDto (this.username,this.password);
-    /*this.authService.login(dto).subscribe(data => {
-      console.log(data.token);
-    }, err => {
-      this.toastr.error(err.message, 'Error', { timeOut: 3000, positionClass: 'toast-top-center' });
-    }
-    
-    )*/
-  }
-
 }
